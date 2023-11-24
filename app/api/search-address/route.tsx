@@ -23,5 +23,7 @@ export async function GET(request: any) {
 
   const searchResult = await res.json();
 
+  console.log("searchResult -----", searchResult);
+
   return NextResponse.json({ searchResult });
 }

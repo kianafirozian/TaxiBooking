@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 
 export default function AutocompleteAddress() {
-  const [source, setSource] = useState<any>();
+  const [source, setSource] = useState<any>("");
   const [addressList, setAddressList] = useState<any>([]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      getAddressList();
+      if (source) getAddressList();
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
   }, [source]);
@@ -19,7 +19,7 @@ export default function AutocompleteAddress() {
       },
     });
     const result = await res.json();
-    setAddressList(result);
+    setAddressList(result?.searchResult);
   };
 
   return (
@@ -32,10 +32,12 @@ export default function AutocompleteAddress() {
           onChange={(e) => setSource(e.target.value)}
           value={source}
         />
-        {addressList?.suggestion ? (
+        {addressList?.suggestions ? (
           <div>
-            {addressList.suggestion.map((item: any, index: number) => (
-              <h2>{item.full_address}</h2>
+            {addressList.suggestions.map((item: any, index: number) => (
+              <h2 key={item.mapbox_id}>
+                {item.full_address || item.place_formatted}
+              </h2>
             ))}
           </div>
         ) : null}
@@ -43,10 +45,10 @@ export default function AutocompleteAddress() {
 
       <div className="mt-3">
         <label className="text-gray-400">Where To ?</label>
-        <input
-          type="text"
-          className="bg-white p-1 border-[1px] w-full rounded-md outline-none focus:border-yellow-300"
-        />
+        {/* <input
+            type="text"
+            className="bg-white p-1 border-[1px] w-full rounded-md outline-none focus:border-yellow-300"
+          /> */}
       </div>
     </div>
   );
