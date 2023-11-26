@@ -4,14 +4,13 @@ import Cars from "./Cars";
 import Cards from "./Cards";
 
 function Booking() {
+  // const screenHeight = window.innerHeight*0.72;
+
   return (
     <div className="p-5">
       <h2 className="text-[20px] font-semibold">Booking</h2>
       {window !== undefined && (
-        <div
-          className="border-[1px] p-5 rounded-md"
-          style={{ height: window.innerHeight * 0.72 }}
-        >
+        <div className="border-[1px] p-5 rounded-md">
           <AutocompleteAddress />
           <Cars />
           <Cards />

@@ -1,4 +1,3 @@
-"use client";
 import CarsList from "@/data/CarsList";
 import Image from "next/image";
 import { useState } from "react";

@@ -1,4 +1,5 @@
 import Booking from "@/components/Booking/Booking";
+import MapBoxMap from "@/components/Map/MapBoxMap";
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 
@@ -9,7 +10,9 @@ export default function Home() {
         <div>
           <Booking />
         </div>
-        <div className="col-span-2">Map</div>
+        <div className="col-span-2">
+          <MapBoxMap />
+        </div>
       </div>
     </div>
   );
