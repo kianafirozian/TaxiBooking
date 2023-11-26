@@ -29,8 +29,6 @@ export default function AutocompleteAddress() {
     setAddressList(result);
   };
 
-  console.log("result", addressList);
-
   return (
     <div className="mt-5">
       <div className="relative">
@@ -50,7 +48,7 @@ export default function AutocompleteAddress() {
               <h2
                 className="p-3 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
-                  setSource(item.place_formatted);
+                  setSource(item.place_formatted || item.full_address);
                   setAddressList([]);
                   setSourceChange(false);
                 }}
@@ -84,9 +82,9 @@ export default function AutocompleteAddress() {
                 key={index}
                 className="p-3 hover:bg-gray-100
                 cursor-pointer"
-                onClick={() => {
-                  onDestinationAddressClick(item);
-                }}
+                onClick={() =>
+                  console.log("destinationChange", destinationChange)
+                }
               >
                 {item.full_address || item.place_formatted}
               </h2>

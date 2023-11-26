@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import AutocompleteAddress from "./AutocompleteAddress";
+import Cars from "./Cars";
 
 function Booking() {
   return (
@@ -12,6 +13,7 @@ function Booking() {
           style={{ height: window.innerHeight * 0.72 }}
         >
           <AutocompleteAddress />
+          <Cars />
         </div>
       )}
     </div>
