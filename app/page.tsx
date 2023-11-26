@@ -1,19 +1,35 @@
+"use client";
 import Booking from "@/components/Booking/Booking";
 import MapBoxMap from "@/components/Map/MapBoxMap";
-import { UserButton } from "@clerk/nextjs";
-import Image from "next/image";
+import { UserLocationContext } from "@/context/UserLocationContext";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [userLocation, setUserLocation] = useState<any>();
+  useEffect(() => {
+    getUserLocation();
+  }, []);
+
+  const getUserLocation = () => {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      setUserLocation({
+        lat: pos.coords.altitude,
+        lng: pos.coords.longitude,
+      });
+    });
+  };
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-3">
-        <div>
-          <Booking />
+      <UserLocationContext.Provider value={{ userLocation, setUserLocation }}>
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          <div>
+            <Booking />
+          </div>
+          <div className="col-span-2">
+            <MapBoxMap />
+          </div>
         </div>
-        <div className="col-span-2">
-          <MapBoxMap />
-        </div>
-      </div>
+      </UserLocationContext.Provider>
     </div>
   );
 }
