@@ -1,10 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
+const session_token = "5ccce4a4-ab0a-4a7c-943d-580e55542363";
+
+const MAPBOX_RETRIVE_URL =
+  "https://api.mapbox.com/search/searchbox/v1/retrieve/";
+
 export default function AutocompleteAddress() {
-  const [source, setSource] = useState<any>("");
+  const [source, setSource] = useState<any>();
   const [sourceChange, setSourceChange] = useState<any>(false);
   const [destinationChange, setDestinationChange] = useState<any>(false);
+
+  const [sourceCordinates, setSourceCordinates] = useState<any>([]);
 
   const [addressList, setAddressList] = useState<any>([]);
   const [destination, setDestination] = useState<any>();
@@ -29,8 +36,27 @@ export default function AutocompleteAddress() {
     setAddressList(result);
   };
 
+  const onSourceAddressClick = async (item: any) => {
+    setSource(item.full_address || item.place_formatted);
+    setAddressList([]);
+    setSourceChange(false);
+    const res = await fetch(
+      MAPBOX_RETRIVE_URL +
+        item.mapbox_id +
+        "?session_token=" +
+        session_token +
+        "&access_token=" +
+        process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+    );
+    const result = await res.json();
+    setSourceCordinates({
+      lng: result.features[0].geomtry.coordinates[0],
+      lat: result.features[0].geomtry.coordinates[1],
+    });
+  };
+
   return (
-    <div className="mt-1">
+    <div className="">
       <div className="relative">
         <label className="text-gray-400 text-[13px]">Where From ?</label>
         <input
@@ -44,15 +70,13 @@ export default function AutocompleteAddress() {
         />
         {addressList?.suggestions && sourceChange ? (
           <div className="shadow-md p-1 rounded-md absolute w-full bg-white">
-            {addressList.suggestions.map((item: any, index: number) => (
+            {addressList?.suggestions.map((item: any, index: number) => (
               <h2
+                key={item}
                 className="p-3 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
-                  setSource(item.place_formatted || item.full_address);
-                  setAddressList([]);
-                  setSourceChange(false);
+                  onSourceAddressClick(item);
                 }}
-                key={item.mapbox_id}
               >
                 {item.full_address || item.place_formatted}
               </h2>
@@ -82,9 +106,9 @@ export default function AutocompleteAddress() {
                 key={index}
                 className="p-3 hover:bg-gray-100
                 cursor-pointer"
-                onClick={() =>
-                  console.log("destinationChange", destinationChange)
-                }
+                onClick={() => {
+                  onSourceAddressClick(item);
+                }}
               >
                 {item.full_address || item.place_formatted}
               </h2>

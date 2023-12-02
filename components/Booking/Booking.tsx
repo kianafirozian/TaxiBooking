@@ -1,4 +1,3 @@
-"use client";
 import AutocompleteAddress from "./AutocompleteAddress";
 import Cars from "./Cars";
 import Cards from "./Cards";
