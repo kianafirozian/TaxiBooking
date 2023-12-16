@@ -6,7 +6,8 @@ export async function GET(request: any) {
   const { searchParams } = new URL(request.url);
 
   const searchText = searchParams.get("q");
-
+  console.log("BASE_URL", BASE_URL);
+  console.log("MAPBOX_ACCESS_TOKEN", process.env.MAPBOX_ACCESS_TOKEN);
   const res = await fetch(
     BASE_URL +
       "?q=" +
@@ -22,6 +23,6 @@ export async function GET(request: any) {
   );
 
   const searchResult = await res.json();
-
+  console.log("searchResult", searchResult);
   return NextResponse.json(searchResult);
 }

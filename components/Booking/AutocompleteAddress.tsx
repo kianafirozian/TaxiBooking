@@ -31,6 +31,7 @@ export default function AutocompleteAddress() {
         "Content-Type": "application/json",
       },
     });
+    console.log("res ---", res);
 
     const result = await res.json();
     setAddressList(result);
