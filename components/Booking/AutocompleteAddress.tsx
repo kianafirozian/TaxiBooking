@@ -21,7 +21,6 @@ export default function AutocompleteAddress() {
   const { destinationCordinates, setDestinationCordinates } = useContext(
     DestinationCordiContext
   );
-  console.log("des", destinationCordinates);
   const [addressList, setAddressList] = useState<any>([]);
 
   const [destination, setDestination] = useState<any>();
@@ -60,9 +59,10 @@ export default function AutocompleteAddress() {
     );
     const result = await res.json();
     setSourceCordinates({
-      lng: result.features[0].properties.coordinates[0],
-      lat: result.features[0].properties.coordinates[1],
+      lng: result.features[0].geometry.coordinates[0],
+      lat: result.features[0].geometry.coordinates[1],
     });
+    console.log("res", result);
   };
 
   const onDestinationAddressClick = async (item: any) => {
@@ -78,10 +78,11 @@ export default function AutocompleteAddress() {
         process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
     );
     const result = await res.json();
-    setDestinationChange({
+    setDestinationCordinates({
       lng: result.features[0].geometry.coordinates[0],
       lat: result.features[0].geometry.coordinates[1],
     });
+    console.log("result", result);
   };
 
   return (
