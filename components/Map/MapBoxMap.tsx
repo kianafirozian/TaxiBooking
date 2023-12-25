@@ -6,6 +6,13 @@ import { Map } from "react-map-gl";
 import Markers from "./Markers";
 import { SourceCordiContext } from "@/context/SourceCordiContext";
 import { DestinationCordiContext } from "@/context/DestinationCordiContext";
+import { DirectionDataContext } from "@/context/DirectionDataContext";
+import MapBoxRoute from "./MapBoxRoute";
+
+const MAPBOX_DRIVING_ENDPOINT =
+  "https://api.mapbox.com/directions/v5/mapbox/driving/";
+
+const session_token = "5ccce4a4-ab0a-4a7c-943d-580e55542363";
 
 function MapBoxMap() {
   const mapRef = useRef<any>();
@@ -18,6 +25,10 @@ function MapBoxMap() {
   const { destinationCordinates, setDestinationCordinates } = useContext(
     DestinationCordiContext
   );
+
+  const { directionData, setDirectionData } = useContext(DirectionDataContext);
+  console.log("direct", directionData);
+
   // use fly to source marker location
   useEffect(() => {
     if (sourceCordinates) {
@@ -36,7 +47,34 @@ function MapBoxMap() {
         duration: 2500,
       });
     }
+    if (sourceCordinates && destinationCordinates) {
+      getDirectionRoute();
+    }
   }, [destinationCordinates]);
+
+  const getDirectionRoute = async () => {
+    const res = await fetch(
+      MAPBOX_DRIVING_ENDPOINT +
+        sourceCordinates.lng +
+        "," +
+        sourceCordinates.lat +
+        ";" +
+        destinationCordinates.lng +
+        "," +
+        destinationCordinates.lat +
+        "?overview=full&geometries=geojson" +
+        "&access_token=" +
+        process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const result = await res.json();
+    console.log(result);
+    setDirectionData(result);
+  };
 
   return (
     <div className="p-5">
@@ -55,6 +93,12 @@ function MapBoxMap() {
             mapStyle="mapbox://styles/mapbox/streets-v9"
           >
             <Markers />
+
+            {directionData?.routes ? (
+              <MapBoxRoute
+                coordinates={directionData?.routes[0]?.geometry?.coordinates}
+              />
+            ) : null}
           </Map>
         ) : null}
       </div>
