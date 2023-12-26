@@ -1,5 +1,6 @@
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function NavBar() {
   return (
@@ -9,7 +10,7 @@ export default function NavBar() {
       </div>
       <div className="gap-6 hidden md:flex">
         <h2 className="hover:bg-gray-100 py-2 rounded-md cursor-pointer transition-all">
-          Home
+          <Link href="/">Home</Link>
         </h2>
         <h2 className="hover:bg-gray-100 py-2 rounded-md cursor-pointer transition-all">
           History
