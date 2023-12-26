@@ -5,10 +5,10 @@ import { loadStripe } from "@stripe/stripe-js";
 
 function Payment() {
   const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as any
   );
 
-  const options = {
+  const options: any = {
     mode: "payment",
     amount: 50,
     currency: "usd",
