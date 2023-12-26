@@ -62,7 +62,7 @@ export default function AutocompleteAddress() {
       lng: result.features[0].geometry.coordinates[0],
       lat: result.features[0].geometry.coordinates[1],
     });
-    console.log("res", result);
+    // console.log("res", result);
   };
 
   const onDestinationAddressClick = async (item: any) => {
@@ -82,7 +82,7 @@ export default function AutocompleteAddress() {
       lng: result.features[0].geometry.coordinates[0],
       lat: result.features[0].geometry.coordinates[1],
     });
-    console.log("result", result);
+    // console.log("result", result);
   };
 
   return (

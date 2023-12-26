@@ -28,7 +28,7 @@ function MapBoxMap() {
   );
 
   const { directionData, setDirectionData } = useContext(DirectionDataContext);
-  console.log("direct", directionData);
+  // console.log("direct", directionData);
 
   // use fly to source marker location
   useEffect(() => {
@@ -73,7 +73,7 @@ function MapBoxMap() {
       }
     );
     const result = await res.json();
-    console.log(result);
+    // console.log(result);
     setDirectionData(result);
   };
 
