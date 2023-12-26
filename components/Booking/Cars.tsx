@@ -14,7 +14,7 @@ function Cars() {
   const getCost = (charges: any) => {
     return (
       charges *
-      directionData.routes[0].distance *
+      directionData?.routes[0]?.distance *
       0.000621371192
     ).toFixed(2);
   };
